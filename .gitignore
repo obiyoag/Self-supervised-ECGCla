@@ -1,4 +1,3 @@
 __pycache__
-data
-data/MIT-BIH
-models2save
+data/*
+models2save/*
