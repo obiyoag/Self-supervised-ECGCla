@@ -1,3 +1,12 @@
+preprocess: 心拍分割、数据集划分  
+dateSets： 数据集及其预处理  
+models： 网络模型  
+preMain： 自监督训练  
+fine_tuing: 分类训练  
+reconstruct： 可视化  
+utils： 训练用函数及dataloader  
+
+
 ## MIT-BIH
 
 + 48 half-hour two-lead ECG recordings obtained from 48 patients
