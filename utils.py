@@ -29,7 +29,7 @@ def getGenerators(dataset, batch_size, setSplit, random_seed):
 
 def pre_train(model, device, train_loader, optimizer, epoch):
     model.train()
-    trainNum = len(train_loader.dataset)
+    trainNum = len(train_loader.sampler)
     for batch_idx, (data, target) in enumerate(train_loader):
         data, target = data.to(device), target.to(device)
         optimizer.zero_grad()
