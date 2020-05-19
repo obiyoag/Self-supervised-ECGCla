@@ -88,8 +88,9 @@ test_split = 0.9, epoch=100
 |snr|acc|self-supervised|
 |:---:|:---:|:---:|
 |None|99%|no|
-|0|99%|no|
-|-6|99%|no|
+|6|98%|no|
+|0|94%|no|
+|-6|84%|no|
 
 
 

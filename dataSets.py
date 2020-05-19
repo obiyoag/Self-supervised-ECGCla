@@ -33,9 +33,10 @@ class OriSet(Dataset):
         self.data = self.df.iloc[:, 1:].values
         # 数据标准化和加噪声
         for id in range(len(self.data)):
-            if snr is not None:
-                self.data[id] = wgn(self.data[id], snr, 40)
             self.data[id] = normalization_processing(self.data[id])
+
+            if snr is not None:
+                self.data[id] = wgn(self.data[id], snr, id + 1)
 
         self.label = self.df.iloc[:, 0].copy()
         for id in range(len(self.df)):
@@ -69,7 +70,7 @@ class PreSet(Dataset):
         # 数据标准化和加噪声
         for id in range(len(self.data)):
             if snr is not None:
-                self.data[id] = wgn(self.data[id], snr, 40)
+                self.data[id] = wgn(self.data[id], snr, id + 1)
             self.data[id] = normalization_processing(self.data[id])
 
         # mask数据
@@ -90,6 +91,35 @@ class PreSet(Dataset):
         return maskData, data
 
 
+class Scratch(Dataset):
+    def __init__(self, filePath):
+        print("data preparing")
+        self.df = pd.read_csv(filePath, header=None)  # 取出除第一行外的数据列
+        self.data = self.df.iloc[:, 1:].values
+        # 数据标准化和加噪声
+        for id in range(len(self.data)):
+            self.data[id] = normalization_processing(self.data[id])
+
+        self.label = self.df.iloc[:, 0].copy()
+        for id in range(len(self.df)):
+            label = self.label.iloc[id]
+            if label == 'N':
+                self.label.iloc[id] = 0
+            elif label == 'S':
+                self.label.iloc[id] = 1
+            elif label == 'V':
+                self.label.iloc[id] = 2
+            elif label == 'F':
+                self.label.iloc[id] = 3
+        print("data preparing finished")
+
+    def __len__(self):
+        return len(self.df)
+
+    def __getitem__(self, id):
+        data = torch.randn(1, 250).float()
+        label = torch.tensor(self.label[id]).long()
+        return data, label
 # noise visualization
 # oriset = OriSet('ECGCla/data/Classified/trainSet.csv', snr=0)
 # data = oriset[1][0][0]
